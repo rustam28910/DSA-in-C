@@ -118,6 +118,78 @@ int max_value(Node *ptr)
   return max;
 }
 
+//deleting an element from a linked list 
+void delete(Node **first, int value)
+{
+  Node *ptr,*f;
+  ptr = *first;
+  if (ptr == NULL)
+  {
+    printf("Linked list is empty, no values found\n");
+    return;
+  }
+  else if(ptr->data == value)
+  {
+    f = ptr;
+    ptr = ptr->next;
+    *first = ptr;
+    f->next = NULL;
+    free(f);
+  }
+  else
+  {
+    while(ptr->next != NULL)
+    {
+      if(ptr->next->data == value)
+      {
+        f = ptr->next;
+        ptr->next = ptr->next->next;
+        f->next = NULL;
+        free(f);
+        return;
+      }
+      ptr = ptr->next;
+    }
+    printf("Value not found in linked list \n");
+  }
+}
+
+//check if linked list is sorted
+
+//insert in sorted linked list 
+
+//insert after some value in linked list
+void insert_after(Node **first, int value, int after_value)
+{
+  Node *ptr,*val;
+  ptr = *first;
+  if (ptr == NULL)
+  {
+    printf("Linked list is empty, there is no value to search for");
+    return;
+  }
+  while(ptr != NULL)
+  {
+    if (ptr->data == value)
+    {
+      val = (Node *) malloc(sizeof(Node));
+      val->data = after_value;
+      if(ptr->next != NULL)
+      {
+        val->next = ptr->next;
+      }
+      else
+      {
+        val->next = NULL;
+      }
+      ptr->next = val;
+      return;
+    }
+    ptr = ptr->next;
+  }
+  printf("The value given does not exist in linked list\n");
+}
+
 // prints the entire linked list
 void display(Node *p)
 {
@@ -141,5 +213,9 @@ int main(void)
   display(first);
   search_value(first,2);
   printf("Max value of the linked list is %d\n", max_value(first));
+  delete(&first, 5);
+  display(first);
+  insert_after(&first,65,35);
+  display(first);
   return 0;
 }
