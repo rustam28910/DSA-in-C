@@ -154,10 +154,6 @@ void delete(Node **first, int value)
   }
 }
 
-//check if linked list is sorted
-
-//insert in sorted linked list 
-
 //insert after some value in linked list
 void insert_after(Node **first, int value, int after_value)
 {
@@ -201,6 +197,133 @@ void display(Node *p)
   printf("\n");
 }
 
+//check if linked list is sorted
+void is_sorted(Node *first)
+{
+  Node *ptr;
+  ptr = first;
+  if(ptr == NULL)
+  {
+    printf("Linked list is empty, therefore sorted\n");
+    return;
+  }
+  if (ptr->next == NULL)
+  {
+    printf("Linked list is sorted\n");
+    return;
+  }
+  while(ptr->next != NULL)
+  {
+    if (ptr->data > ptr->next->data)
+    {
+      printf("Linked list is not sorted! \n");
+      return;
+    }
+    ptr = ptr->next;
+  }
+  printf("Linked list is sorted. \n");
+
+}
+
+//insert in sorted linked list
+void insert_at_sll(Node **first, int value)
+{
+  Node *ptr, *t;
+  ptr = *first;
+  if (ptr == NULL)
+  {
+    t = (Node *) malloc(sizeof(Node));
+    t->data = value;
+    t->next = NULL;
+    *first = t;
+    return;
+  }
+  if(ptr->data > value)
+  {
+    t = (Node *) malloc(sizeof(Node));
+    t->data = value;
+    t->next = ptr;
+    *first = t;
+    return;
+  }
+  while(ptr->next != NULL)
+  {
+    if(ptr->data < value && ptr->next->data > value)
+    {
+      t = (Node *) malloc(sizeof(Node));
+      t->data = value;
+      t->next = ptr->next;
+      ptr->next = t;
+      return;
+    }
+    ptr = ptr->next;
+  }
+  t = (Node *) malloc(sizeof(Node));
+  t->data = value;
+  t->next = NULL;
+  ptr->next = t;
+}
+
+int get_length(Node **first)
+{
+  Node *ptr = *first;
+  int count = 0;
+  if (ptr == NULL)
+  {
+    return 0;
+  }
+  else if(ptr->next == NULL)
+  {
+    return 1;
+  }
+  while(ptr != NULL)
+  {
+    ptr = ptr->next;
+    count++;
+  }
+  return count;
+
+}
+//reverse a linked list
+
+void reverse_list(Node **first)
+{
+  Node *ptr, *t;
+  ptr = *first;
+  t = *first;
+  if(ptr == NULL)
+  {
+    printf("Linked list is empty nothing to reverse\n");
+    return;
+  }
+  if (ptr->next == NULL)
+  {
+    printf("There is just one element, so nothing to reverse \n");
+    return;
+  }
+  
+  int array[get_length(first)];
+  printf("length of the linked list is %d\n",get_length(first));
+  int i = 0;
+  while(ptr != NULL)
+  {
+    array[i] = ptr->data;
+    ptr = ptr->next;
+    i++;
+  }
+  
+  while(t != NULL)
+  {
+    i--;
+    t->data = array[i];
+    t = t->next;
+  }
+  }
+
+//detect a cycle
+//merge 2 sorted lists
+
+
 int main(void)
 {
   int arr[] = {2,5,90,65,27,98,76};
@@ -216,6 +339,9 @@ int main(void)
   delete(&first, 5);
   display(first);
   insert_after(&first,65,35);
+  display(first);
+  reverse_list(&first);
+  printf("list should be reversed here \n");
   display(first);
   return 0;
 }
