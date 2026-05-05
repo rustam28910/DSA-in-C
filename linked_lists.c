@@ -8,7 +8,6 @@ typedef struct Node
 }Node;
 
 Node *first = NULL;
-
 // creating a linked list using an array of values provided 
 void create(int arr[], int n)
 {
@@ -320,13 +319,75 @@ void reverse_list(Node **first)
   }
   }
 
-//detect a cycle
-//merge 2 sorted lists
+//merge 2 linked lists
+void merge(Node **first, Node **ptr)
+{
+  Node *t, *q;
+  t = *first;
+  q = *ptr;
+  while(t->next != NULL)
+  {
+    t = t->next;
+  }
+  t->next = q;
+}
 
+
+void merge_sorted_ll(Node **first, Node **second)
+{
+  Node *ptr1, *ptr2,*t;
+  ptr1 = *first;
+  t = *first;
+  ptr2 = *second;
+  if(ptr1 == NULL || ptr2 == NULL)
+  {
+    printf("One of the linked lists is empty, so no point in merging it\n");
+    return;
+  }
+  while(ptr1 != NULL || ptr2 != NULL)
+  {
+    if(ptr1->data > ptr2->data)
+    {
+      t->data = ptr2->data;
+      t = t->next;
+      ptr2 = ptr2->next;
+    }
+    else if(ptr2->data > ptr1->data)
+    {
+      t->data = ptr1->data;
+      t = t->next;
+      ptr1 = ptr1->next;
+    }
+    else
+    {
+      t->data = ptr1->data;
+      t = t->next;
+      ptr1 = ptr1->next;
+      ptr2 = ptr2->next;
+    }
+  }
+  printf("One of the linked lists are finished, might be both! \n");
+  
+  if(ptr1 == NULL && ptr2 == NULL)
+  {
+    printf("Both linked lists are finished and everyhting is sorted and merged into a new linked list\n");
+    return;
+  }
+  else if(ptr1==NULL)
+  {
+    t->next = ptr2;
+  }
+  else
+  {
+    t->next = ptr1;
+  }
+
+}
 
 int main(void)
 {
   int arr[] = {2,5,90,65,27,98,76};
+  int A[] = {73,14,67,43};
   int n = 7;
   create(arr,n);
   display(first);
