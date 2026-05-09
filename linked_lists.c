@@ -332,56 +332,73 @@ void merge(Node **first, Node **ptr)
   t->next = q;
 }
 
-
+// merge 2 sorted linked lists into one list
 void merge_sorted_ll(Node **first, Node **second)
 {
-  Node *ptr1, *ptr2,*t;
+  Node *ptr1, *ptr2, *head, *tail;
   ptr1 = *first;
-  t = *first;
   ptr2 = *second;
-  if(ptr1 == NULL || ptr2 == NULL)
-  {
-    printf("One of the linked lists is empty, so no point in merging it\n");
-    return;
-  }
-  while(ptr1 != NULL || ptr2 != NULL)
+  if (ptr1 != NULL && ptr2 != NULL)
   {
     if(ptr1->data > ptr2->data)
     {
-      t->data = ptr2->data;
-      t = t->next;
+      head = ptr2;
       ptr2 = ptr2->next;
-    }
-    else if(ptr2->data > ptr1->data)
-    {
-      t->data = ptr1->data;
-      t = t->next;
-      ptr1 = ptr1->next;
     }
     else
     {
-      t->data = ptr1->data;
-      t = t->next;
+      head = ptr1;
       ptr1 = ptr1->next;
-      ptr2 = ptr2->next;
     }
+    tail = head;
+
+    while(ptr1 != NULL && ptr2 != NULL)
+    {
+      if (ptr1->data > ptr2->data)
+      {
+        tail->next = ptr2;
+        tail = tail->next;
+        ptr2 = ptr2->next;
+      }
+      else if(ptr1->data < ptr2->data)
+      {
+        tail->next = ptr1;
+        tail = tail->next;
+        ptr1 = ptr1->next;
+      }
+      else 
+      {
+        tail->next = ptr1;
+        tail = tail->next;
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+      }
+
+    }
+
+    if(ptr1 == NULL && ptr2 == NULL)
+    {
+      printf("Both linked lists are null, everything is merged\n");
+      return;
+    }
+
+    else if(ptr1 == NULL)
+    {
+      tail->next = ptr2;
+    }
+
+    else
+    {
+      tail->next = ptr1;
+    }
+
+    printf("We can start the process, both linked lists have values \n");
   }
-  printf("One of the linked lists are finished, might be both! \n");
-  
-  if(ptr1 == NULL && ptr2 == NULL)
+  else 
   {
-    printf("Both linked lists are finished and everyhting is sorted and merged into a new linked list\n");
+    printf("One of the linked lists are empty, so the linked list is already merged and sorted \n");
     return;
   }
-  else if(ptr1==NULL)
-  {
-    t->next = ptr2;
-  }
-  else
-  {
-    t->next = ptr1;
-  }
-
 }
 
 int main(void)
