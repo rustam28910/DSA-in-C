@@ -93,6 +93,16 @@ int isEmpty(Queue *ptr)
     return 0;
 }
 
+int peek(Queue *ptr)
+{
+    if(ptr->front == NULL)
+    {
+        printf("No elements exist\n");
+        return -1;
+    }
+    return *(ptr->front);
+}
+
 int main(void)
 {
     Queue queue;
