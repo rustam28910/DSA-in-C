@@ -65,12 +65,60 @@ void in_order_traversal(Node *root)
 {
     if (root == NULL)
     {
-        printf("Tree is empty \n");
         return;
     }
     in_order_traversal(root->left);
     printf("%d-->",root->value);
     in_order_traversal(root->right);
+}
+
+// search, preorder, postorder, delete
+
+int search(Node *root, int x)
+{
+    Node *ptr = root;
+    if(root == NULL)
+    {
+        printf("Value not found in the tree \n");
+        return 0;
+    }
+    
+    if (root->value == x)
+    {
+        printf("Node is in the tree \n");
+        return 1;
+    }
+    if(x > ptr->value)
+    {
+        return search(ptr->right,x);
+    }
+    else
+    {
+        return search(ptr->left,x);
+    }
+}
+
+void preorder_traversal(Node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    printf("%d-->",root->value);
+    preorder_traversal(root->left);
+    preorder_traversal(root->right);
+}
+
+void postorder_traversal(Node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    postorder_traversal(root->left);
+    postorder_traversal(root->right);
+    printf("%d-->",root->value);
+
 }
 
 int main(void)
@@ -87,5 +135,11 @@ int main(void)
     BST *p = &tree;
     Node *n = p->root;
     in_order_traversal(n);
+    search(n,6);
+    preorder_traversal(n);
+    printf("\n");
+    postorder_traversal(n);
+
+
     return 0;
 }
