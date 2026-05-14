@@ -72,7 +72,7 @@ void in_order_traversal(Node *root)
     in_order_traversal(root->right);
 }
 
-// search, preorder, postorder, delete
+// delete
 
 int search(Node *root, int x)
 {
@@ -121,6 +121,7 @@ void postorder_traversal(Node *root)
 
 }
 
+
 int main(void)
 {
     BST tree;
@@ -139,7 +140,5 @@ int main(void)
     preorder_traversal(n);
     printf("\n");
     postorder_traversal(n);
-
-
     return 0;
 }
