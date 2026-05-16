@@ -121,6 +121,98 @@ void postorder_traversal(Node *root)
 
 }
 
+Node * delete(Node *root, int value)
+{
+    Node *t, *previous;
+    if (root == NULL)
+    {
+        printf("Value is not in the tree, not found \n");
+        return NULL;
+    }
+    if(root->value == value)
+    {
+        //i found the node to be deleted, heart of the function is here
+        if(root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            return NULL;
+        }
+        if(root->right == NULL)
+        {
+            t = root->left;
+            free(root);
+            return t;
+        }
+        if(root->left == NULL)
+        {
+            t = root->right;
+            free(root);
+            return t;
+        }
+        // now i need to write the case where both children exist and i need to use recursion if needed
+        //  to connect the rest of the nodes with each other
+        if (root->left != NULL && root->right != NULL)
+        {
+            previous = root;
+            t = root->right;
+            // go to the leftmost node
+            if(t->left == NULL)
+            {
+                root->value = t->value;
+                if (t->right == NULL)
+                {
+                    free(t);
+                    return root;
+                }
+                else
+                {
+                    root->right = t->right;
+                    free(t);
+                    return root;
+                }
+            }
+
+            else if(t->left != NULL)
+            {
+                while(t->left != NULL)
+                {
+                    previous = t;
+                    t = t->left;
+                }
+                if(t->right == NULL)
+                {
+                    // here i can just remove t
+                    root->value = t->value;
+                    previous->left = NULL;
+                    free(t);
+                    return root;
+                }
+                else
+                {
+                   //here i have the value after the t which i am going to delete after copying the value into the root
+                   root->value = t->value;
+                   previous->left = t->right;
+                   free(t);
+                   return root;
+                }
+            }
+            
+        }
+        
+    }
+    else
+    {
+        if(value > root->value)
+        {
+            root->right = delete(root->right, value);
+        }
+        else
+        {
+            root->left = delete(root->left, value);
+        }
+    }
+    return root;
+}
 
 int main(void)
 {
